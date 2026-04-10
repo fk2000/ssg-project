@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Comments from '../../components/Comments.astro';
 
 export async function getStaticPaths() {
   const allGuidePosts = await getCollection('ssg-guide');
@@ -68,9 +69,22 @@ const { Content } = await render(post);
         <Content />
       </div>
 
+      <Comments />
+
       <footer class="post-footer">
         <hr class="footer-divider" />
-        <a href="/" class="back-link">← 目次へ戻る</a>
+        <div class="footer-actions">
+          <a href="/" class="back-link">
+            <span class="arrow">←</span> 目次へ戻る
+          </a>
+          <a 
+            href={`https://bitbucket.org/fk2000/vigorous-venus/src/main/src/content/ssg-guide/${post.id}.md`} 
+            target="_blank" 
+            class="edit-link"
+          >
+            <span class="icon">✎</span> このページを編集する
+          </a>
+        </div>
       </footer>
     </article>
   </div>
@@ -187,6 +201,54 @@ const { Content } = await render(post);
   .post-content {
     font-size: 1.1rem;
     line-height: 1.8;
+  }
+
+  .footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .back-link, .edit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: var(--on-surface);
+    opacity: 0.7;
+    font-size: 0.95rem;
+  }
+
+  .edit-link {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .back-link:hover, .edit-link:hover {
+    opacity: 1;
+    color: var(--primary);
+  }
+
+  .edit-link:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--primary);
+  }
+
+  .arrow, .icon {
+    transition: transform 0.3s ease;
+  }
+
+  .back-link:hover .arrow {
+    transform: translateX(-5px);
+  }
+
+  .edit-link:hover .icon {
+    transform: rotate(15deg) scale(1.1);
   }
 
   @media (max-width: 900px) {

@@ -1,0 +1,36 @@
+<section class="comments-section">
+  <hr class="divider" />
+  <h2 class="section-title">フィードバック・感想</h2>
+  <script src="https://giscus.app/client.js"
+        data-repo="[ここにGitHubリポジトリ名]"
+        data-repo-id="[ここにリポジトリID]"
+        data-category="Announcements"
+        data-category-id="[ここにカテゴリーID]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark_dimmed"
+        data-lang="ja"
+        crossorigin="anonymous"
+        async>
+  </script>
+</section>
+
+<style>
+  .comments-section {
+    margin-top: 6rem;
+    animation: reveal 1s ease;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 3rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--primary);
+  }
+</style>
