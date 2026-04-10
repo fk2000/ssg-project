@@ -2,6 +2,8 @@
 title: "はじめに：SSGの世界へようこそ"
 order: 1
 status: "published"
+tags: ["SSG", "Intro", "Web"]
+summary: "静的サイトジェネレーター（SSG）の基本概念とその圧倒的な利点を解説。現代のWeb開発においてなぜSSGが選ばれるのかを探ります。"
 ---
 
 # 静的サイトジェネレーター (SSG) とは？

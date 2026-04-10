@@ -2,7 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-// 全ての記事データを取得して、それぞれのパスを生成します
 export async function getStaticPaths() {
   const allGuidePosts = await getCollection('ssg-guide');
   return allGuidePosts.map(post => ({
@@ -11,139 +10,193 @@ export async function getStaticPaths() {
   }));
 }
 
+// サイドバー用に全記事を取得
+const allPosts = await getCollection('ssg-guide');
+const sortedPosts = allPosts.sort((a, b) => {
+  if (a.data.chapter !== b.data.chapter) return (a.data.chapter ?? 0) - (b.data.chapter ?? 0);
+  return (a.data.order ?? 0) - (b.data.order ?? 0);
+});
+
+// 章ごとにグループ化
+const chapters = [...new Set(sortedPosts.map(p => p.data.chapter ?? 0))].sort();
+
 const { post } = Astro.props;
-// render() 関数を使って Markdown コンテンツを変換します
 const { Content } = await render(post);
 ---
 
-<Layout title={post.data.title}>
-  <article class="post-article">
-    <header class="post-header">
-      <div class="post-breadcrumb">
-        <a href="/">Guide</a> / <span class="current">Chapter {post.data.chapter ?? '?'}</span>
+<Layout title={`${post.data.title} | SSG Guide`}>
+  <div class="book-shell">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+      <div class="sidebar-inner glass-card">
+        <h2 class="sidebar-title">目次</h2>
+        <nav class="sidebar-nav">
+          {chapters.map(chNumber => (
+            <details open class="chapter-group">
+              <summary class="chapter-header">
+                Chapter {chNumber === 0 ? 'Intro' : chNumber}
+                <span class="chevron">›</span>
+              </summary>
+              <ul class="chapter-list">
+                {sortedPosts.filter(p => (p.data.chapter ?? 0) === chNumber).map(p => (
+                  <li>
+                    <a href={`/guide/${p.id}`} class={`nav-link ${p.id === post.id ? 'active' : ''}`}>
+                      {p.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </nav>
       </div>
-      <h1 class="post-title">{post.data.title}</h1>
-      <div class="post-info">
-        <span class={`status-tag ${post.data.status}`}>{post.data.status}</span>
-        <span class="post-date">Reading Time: ~5 min</span>
-      </div>
-      {post.data.summary && <p class="post-excerpt">{post.data.summary}</p>}
-    </header>
+    </aside>
 
-    <div class="post-content">
-      <Content />
-    </div>
+    <!-- メインコンテンツ -->
+    <article class="post-article">
+      <header class="post-header">
+        <div class="post-breadcrumb">
+          <a href="/">Guide</a> / <span class="current">Chapter {post.data.chapter ?? '?'}</span>
+        </div>
+        <h1 class="post-title">{post.data.title}</h1>
+        <div class="post-info">
+          <span class={`status-tag ${post.data.status}`}>{post.data.status}</span>
+        </div>
+      </header>
 
-    <footer class="post-footer">
-      <hr class="footer-divider" />
-      <div class="footer-actions">
-        <a href="/" class="back-link">
-          <span class="arrow">←</span> 目次へ戻る
-        </a>
+      <div class="post-content">
+        <Content />
       </div>
-    </footer>
-  </article>
+
+      <footer class="post-footer">
+        <hr class="footer-divider" />
+        <a href="/" class="back-link">← 目次へ戻る</a>
+      </footer>
+    </article>
+  </div>
 </Layout>
 
 <style>
-  .post-article {
-    max-width: 800px;
-    margin: 0 auto;
+  .book-shell {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 4rem;
+    align-items: start;
   }
 
-  .post-header {
-    margin-bottom: 4rem;
-    text-align: center;
+  /* サイドバー設定 */
+  .sidebar {
+    position: sticky;
+    top: 6rem;
+    height: calc(100vh - 8rem);
   }
 
-  .post-breadcrumb {
+  .sidebar-inner {
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--primary);
+  }
+
+  .chapter-group {
+    margin-bottom: 1rem;
+  }
+
+  .chapter-header {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
     font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
   }
 
-  .post-breadcrumb .current {
+  .chapter-header::-webkit-details-marker { display: none; }
+
+  .chevron {
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+  }
+
+  .chapter-group[open] .chevron {
+    transform: rotate(90deg);
+  }
+
+  .chapter-list {
+    list-style: none;
+    padding-left: 0.5rem;
+    margin: 0.5rem 0 1.5rem 0;
+    border-left: 1px solid var(--border);
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    border-radius: 6px;
+    margin-bottom: 2px;
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--primary);
+  }
+
+  .nav-link.active {
+    background: rgba(99, 102, 241, 0.1);
     color: var(--primary);
     font-weight: 600;
   }
 
-  .post-title {
-    font-size: 3rem;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
+  /* 記事エリア */
+  .post-article {
+    max-width: 800px;
   }
 
-  .post-info {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 2rem;
+  .post-header {
+    margin-bottom: 3rem;
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
 
   .status-tag {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    padding: 0.25rem 0.75rem;
-    border-radius: 99px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
     text-transform: uppercase;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .status-tag.published { background: rgba(5, 150, 105, 0.2); color: #34d399; border-color: rgba(52, 211, 153, 0.3); }
-  .status-tag.draft { background: rgba(71, 85, 105, 0.2); color: #94a3b8; }
-
-  .post-date {
-    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-muted);
-  }
-
-  .post-excerpt {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
-    font-style: italic;
   }
 
   .post-content {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.9);
   }
 
-  .post-footer {
-    margin-top: 6rem;
-  }
-
-  .footer-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin-bottom: 2rem;
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    color: var(--on-surface);
-    opacity: 0.7;
-  }
-
-  .back-link:hover {
-    opacity: 1;
-    color: var(--primary);
-  }
-
-  .arrow {
-    transition: transform 0.3s ease;
-  }
-
-  .back-link:hover .arrow {
-    transform: translateX(-5px);
+  @media (max-width: 900px) {
+    .book-shell {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      position: static;
+      height: auto;
+      margin-bottom: 3rem;
+    }
   }
 </style>
