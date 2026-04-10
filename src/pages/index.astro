@@ -1,17 +1,41 @@
 ---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 
+// 全ての記事を取得し、order（順序）に基づいて並び替えます
+const allGuidePosts = await getCollection('ssg-guide');
+const sortedPosts = allGuidePosts.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// フロントエンドでの表示用デバッグ（コンソールに記事リストを出力）
+// console.log(sortedPosts);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="SSGガイド - 目次">
+  <div style="background: #f9f9f9; padding: 2rem; border-radius: 12px; border: 1px solid #eee;">
+    <h1 style="margin-top: 0; color: #333;">📚 SSGガイド プロジェクト</h1>
+    <p style="color: #666;">静的サイトジェネレーターの世界を学ぶためのドキュメント一覧です。</p>
+    
+    <hr style="margin: 2rem 0; border: none; border-top: 2px solid #ddd;" />
+    
+    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">目次</h2>
+    <nav>
+      <ul style="list-style: none; padding: 0;">
+        {sortedPosts.map(post => {
+          const isPublished = post.data.status === 'published';
+          return (
+            <li style="margin-bottom: 1.5rem; border-left: 4px solid #007bff; padding-left: 1.5rem;">
+              <a href={`/guide/${post.id}`} style="text-decoration: none; display: block;">
+                <h3 style="margin: 0; font-size: 1.25rem; color: #007bff;">
+                  {post.data.title}
+                </h3>
+                <div style="font-size: 0.85rem; color: #888; margin-top: 0.25rem;">
+                  ステータス: {isPublished ? '✅ 公開中' : '📝 執筆中 / 下書き'}
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
+</Layout>

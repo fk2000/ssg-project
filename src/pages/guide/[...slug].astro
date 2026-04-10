@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 全ての記事データを取得して、それぞれのパスを生成します
+export async function getStaticPaths() {
+  const allGuidePosts = await getCollection('ssg-guide');
+  return allGuidePosts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+// render() 関数を使って Markdown コンテンツを変換します
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title}>
+  <article>
+    <div style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+      ステータス: {post.data.status} | 順序: {post.data.order}
+    </div>
+    <Content />
+    <hr style="margin: 2rem 0;" />
+    <a href="/">← ホームへ戻る</a>
+  </article>
+</Layout>
