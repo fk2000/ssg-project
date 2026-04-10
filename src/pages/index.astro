@@ -2,12 +2,19 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// 全ての記事を取得し、order（順序）に基づいて並び替えます
+// 全ての記事を取得し、chapter と order に基づいて並び替えます
 const allGuidePosts = await getCollection('ssg-guide');
-const sortedPosts = allGuidePosts.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const sortedPosts = allGuidePosts.sort((a, b) => {
+  if (a.data.chapter !== b.data.chapter) return (a.data.chapter ?? 0) - (b.data.chapter ?? 0);
+  return (a.data.order ?? 99) - (b.data.order ?? 99);
+});
 
-// フロントエンドでの表示用デバッグ（コンソールに記事リストを出力）
-// console.log(sortedPosts);
+// チャプターごとに記事をグループ化
+const chapters = [
+  { id: 1, title: 'Chapter 1: 基礎知識と導入', description: 'SSGの基本概念と、本サイトを構築している Astro の魅力について学びます。' },
+  { id: 2, title: 'Chapter 2: 主要 SSG カタログ', description: '目的や言語に合わせて、最適な静的サイトジェネレーターを選択するための徹底比較。' },
+  { id: 3, title: 'Chapter 3: 実践・高度な運用術', description: 'デプロイ自動化、独自ドメイン、SEO、計測環境など、プロフェッショナルな運用手法。' }
+];
 ---
 
 <Layout title="SSGガイド - 目次">
@@ -17,74 +24,98 @@ const sortedPosts = allGuidePosts.sort((a, b) => (a.data.order ?? 99) - (b.data.
   </div>
     
   <div class="toc-container">
-    <h2 class="section-title">目次</h2>
-    <nav>
-      <div class="posts-grid">
-        {sortedPosts.map(post => {
-          const isPublished = post.data.status === 'published';
-          return (
-            <div class="glass-card post-card">
-              <a href={`/guide/${post.id}`} class="post-link">
-                <div class="post-meta">
-                  <span class="chapter-badge">Chapter {post.data.chapter ?? '?'}</span>
-                  <span class={`status-badge ${post.data.status}`}>
-                    {isPublished ? 'Live' : 'Draft'}
-                  </span>
-                </div>
-                <h3 class="post-title">{post.data.title}</h3>
-                <p class="post-summary">{post.data.summary || "概要は準備中です。"}</p>
-                
-                {post.data.tags && (
-                  <div class="tags-container">
-                    {post.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+    {chapters.map(chapter => (
+      <section class="chapter-section">
+        <div class="chapter-header">
+          <h2 class="chapter-label">{chapter.title}</h2>
+          <p class="chapter-description">{chapter.description}</p>
+        </div>
+
+        <div class="posts-grid">
+          {sortedPosts.filter(post => (post.data.chapter ?? 1) === chapter.id).map(post => {
+            const isPublished = post.data.status === 'published';
+            return (
+              <div class="glass-card post-card">
+                <a href={`/guide/${post.id}`} class="post-link">
+                  <div class="post-meta">
+                    <span class="type-badge">節 {post.data.order ?? '?'}</span>
+                    <span class={`status-badge ${post.data.status}`}>
+                      {isPublished ? 'Live' : 'Draft'}
+                    </span>
                   </div>
-                )}
-              </a>
-            </div>
-          );
-        })}
-      </div>
-    </nav>
+                  <h3 class="post-title">{post.data.title}</h3>
+                  <p class="post-summary">{post.data.summary || "概要は準備中です。"}</p>
+                  
+                  {post.data.tags && (
+                    <div class="tags-container">
+                      {post.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+                    </div>
+                  )}
+                </a>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    ))}
   </div>
 </Layout>
 
 <style>
   .hero-section {
     text-align: center;
-    margin-bottom: 5rem;
+    margin-bottom: 6rem;
   }
 
   .hero-title {
-    font-size: 3.5rem;
+    font-size: 4rem;
     background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
   }
 
   .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     color: var(--text-muted);
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
+    line-height: 1.6;
   }
 
-  .section-title {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    padding-left: 1rem;
+  .chapter-section {
+    margin-bottom: 6rem;
+  }
+
+  .chapter-header {
+    margin-bottom: 3rem;
+    padding-left: 1.5rem;
     border-left: 4px solid var(--primary);
+  }
+
+  .chapter-label {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+
+  .chapter-description {
+    color: var(--text-muted);
+    font-size: 1.1rem;
   }
 
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
   }
 
   .post-card {
     padding: 2rem;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .post-link {
@@ -97,24 +128,25 @@ const sortedPosts = allGuidePosts.sort((a, b) => (a.data.order ?? 99) - (b.data.
   .post-meta {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
   }
 
-  .chapter-badge {
-    font-size: 0.75rem;
-    font-weight: 600;
+  .type-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
     color: var(--primary);
     background: rgba(99, 102, 241, 0.1);
-    padding: 0.25rem 0.75rem;
-    border-radius: 99px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
     border: 1px solid rgba(99, 102, 241, 0.2);
   }
 
   .status-badge {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    padding: 0.2rem 0.5rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 4px;
     text-transform: uppercase;
   }
@@ -123,27 +155,36 @@ const sortedPosts = allGuidePosts.sort((a, b) => (a.data.order ?? 99) - (b.data.
   .status-badge.draft { background: #475569; color: #f1f5f9; }
 
   .post-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
     line-height: 1.3;
+    color: #fff;
   }
 
   .post-summary {
     font-size: 0.95rem;
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .tags-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: auto;
   }
 
   .tag {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--primary);
-    opacity: 0.8;
+    opacity: 0.7;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
   }
 </style>

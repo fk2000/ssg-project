@@ -1,5 +1,6 @@
 ---
 title: "はじめに：SSGの世界へようこそ"
+chapter: 1
 order: 1
 status: "published"
 tags: ["SSG", "Intro", "Web"]
