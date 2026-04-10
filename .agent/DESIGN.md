@@ -34,17 +34,26 @@ AIに対する具体的な指示（Do's and Don'ts）を記述し、スタイル
 ## Typography
 - **Headlines:** 'Outfit', 'Inter', sans-serif. 
   - Weight: 700 (Bold)
-  - Letter Spacing: -0.02em
-- **Body:** 'Inter', sans-serif.
-  - Weight: 400 (Regular)
-  - Line Height: 1.6
+ ## 3. ページ・レイアウト (Page Layout)
 
-## Effects
-- **Glassmorphism:** 
-  - Backdrop Blur: `12px`
-  - Border: `1px solid rgba(255, 255, 255, 0.1)`
-  - Shadow: `0 8px 32px 0 rgba(0, 0, 0, 0.37)`
-- **Animations:** 
+- **全体構成**: 2カラムレイアウト（左：折りたたみ目次、右：記事本文）。
+- **記事エリア (Post Article)**: 
+  - **背景**: `#ffffff` (不透明) - 視認性を最優先。
+  - **文字色**: `#334155` (Slate-700)
+  - **最大幅**: `800px` (読みやすい1行の長さを維持)
+  - **形状**: 角丸 `12px`、深いドロップシャドウで浮遊感を演出。
+
+## 4. コンポーネント (Components)
+
+### 記事内要素 (Typography)
+- **H2 見出し**: 下線 `2px solid var(--primary)`、マージン大。
+- **強調 (Strong)**: 黒字に薄いプライマリ色のハイライト。
+- **引用 (Blockquote)**: `#f8fafc` 背景、プライマリ色の左アクセント。
+- **インラインコード**: `#f1f5f9` 背景、`#e11d48` (Rose-600) 文字。
+
+### ナビゲーション
+- **サイドバー**: グラスモーフィズム (`backdrop-filter`) を継続使用し、モダンな質感を維持。
+- **ホバーエフェクト**: カードに光の透過アニメーションと浮き上がり（`translateY`）を適用。
   - Hover Transition: `all 0.3s cubic-bezier(0.4, 0, 0.2, 1)`
   - Reveal: 下から上へ 10px 移動しながら不透明度アップ。
 
