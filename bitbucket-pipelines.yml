@@ -1,0 +1,14 @@
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Build and Deploy to Cloudflare Pages
+          image: node:22
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+            - # Cloudflare Pages へデプロイ
+            - # プロジェクト名は Cloudflare 側と一致させてください
+            - npx wrangler pages deploy dist/client --project-name vigorous-venus --commit-dirty=true
