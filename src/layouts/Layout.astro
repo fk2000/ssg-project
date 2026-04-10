@@ -31,6 +31,14 @@ const { title } = Astro.props;
 		<main class="page-container">
 			<slot />
 		</main>
+		<footer class="main-footer">
+			<div class="footer-content">
+				<p>© 2026 SSG Guide Project</p>
+				<nav class="footer-links">
+					<a href="https://fujiken.dev" target="_blank" rel="noopener noreferrer">fujiken.dev</a>
+				</nav>
+			</div>
+		</footer>
 	</body>
 </html>
 
@@ -74,5 +82,27 @@ const { title } = Astro.props;
 	@keyframes reveal {
 		from { opacity: 0; transform: translateY(10px); }
 		to { opacity: 1; transform: translateY(0); }
+	}
+
+	.main-footer {
+		margin-top: 8rem;
+		padding: 4rem 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		background: rgba(15, 23, 42, 0.4);
+	}
+
+	.footer-content {
+		max-width: 1000px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+
+	.footer-links a {
+		font-weight: 600;
+		color: var(--primary);
 	}
 </style>
