@@ -40,18 +40,19 @@ const { title } = Astro.props;
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K64LSVTN"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-		<header class="main-header">
+		<header class="main-header reveal">
 			<div class="header-content">
 				<a href="/" class="logo">✨ SSG Guide</a>
-				<nav>
+				<nav class="main-nav">
 					<a href="/">Home</a>
+					<a href="/guide/01-intro">Intro</a>
 				</nav>
 			</div>
 		</header>
-		<main class="page-container">
+		<main class="page-container reveal">
 			<slot />
 		</main>
-		<footer class="main-footer">
+		<footer class="main-footer reveal">
 			<div class="footer-content">
 				<p>© 2026 SSG Guide Project</p>
 				<nav class="footer-links">
