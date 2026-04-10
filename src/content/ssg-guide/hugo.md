@@ -1,9 +1,11 @@
+---
 title: "Hugo：圧倒的ビルドスピードを誇る静的生成の重鎮"
 chapter: 2
 order: 5
 status: "published"
 tags: ["Go", "Fast", "Legacy-Speed"]
 summary: "Go言語による驚異的な高速ビルド。数万ページ規模のサイトであっても数秒で生成し終える、スピードの絶対王者です。"
+---
 
 # Hugo でのサイト構築
 
