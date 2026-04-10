@@ -6,8 +6,11 @@ const ssgGuide = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/ssg-guide" }),
 	schema: z.object({
 		title: z.string(),
-		order: z.number().optional(),
-		status: z.enum(['draft', 'review', 'published']).default('draft'), // 執筆状況
+		chapter: z.number().optional(), // 章
+		order: z.number().optional(),   // 節・順序
+		status: z.enum(['draft', 'review', 'published']).default('draft'),
+		tags: z.array(z.string()).optional(), // タグ
+		summary: z.string().optional(), // 要約
 	}),
 });
 
