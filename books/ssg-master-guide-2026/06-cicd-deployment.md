@@ -5,7 +5,15 @@ free: true
 
 # 継続的デプロイ (CI/CD) の構築
 
-GitHub ではなく Bitbucket を使っている場合でも、Cloudflare Pages への自動デプロイ環境を構築するのは非常にシンプルです。
+マルチプラットフォームへの自動配信フロー：
+
+```mermaid
+graph TD
+    Local[ローカル環境 (VS Code)] -- "git push" --> BB[Bitbucket (メイン)]
+    BB -- "Pipelines (Build)" --> CF[Cloudflare Pages (本番サイト)]
+    BB -- "Mirroring (SSH)" --> GH[GitHub (ミラー)]
+    GH -- "GitHub Integration" --> Zenn[Zenn (技術記事/本)]
+```
 
 ## 実装のステップ
 

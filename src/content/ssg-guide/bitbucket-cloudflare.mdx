@@ -9,7 +9,15 @@ summary: "Bitbucket Pipelines を活用して、Astro プロジェクトを Clou
 
 # 実践：自動デプロイ環境の構築
 
-多くのSSGユーザーは GitHub を利用しますが、Bitbucket ユーザーであっても Cloudflare Pages の恩恵を最大限に受けることができます。ここでは、その環境を構築した実際の手順をまとめます。
+この記事で構築した、マルチプラットフォーム配信の全体像は以下の通りです。
+
+```mermaid
+graph TD
+    Local[ローカル環境 (VS Code)] -- "git push" --> BB[Bitbucket (メイン)]
+    BB -- "Pipelines (Build)" --> CF[Cloudflare Pages (本番サイト)]
+    BB -- "Mirroring (SSH)" --> GH[GitHub (ミラー)]
+    GH -- "GitHub Integration" --> Zenn[Zenn (技術記事/本)]
+```
 
 ## 1. ビルド設定の準備
 
