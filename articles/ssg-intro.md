@@ -1,12 +1,12 @@
 ---
-title: "【入門】静的サイトゲネレーター（SSG）が選ばれる理由と基礎知識"
+title: "【入門】静的サイトジェネレーター（SSG）が選ばれる理由と基礎知識"
 emoji: "📚"
 type: "tech"
 topics: ["ssg", "web", "beginner", "frontend"]
 published: true
 ---
 
-# 静的サイトゲネレーター（SSG）とは？
+# 静的サイトジェネレーター（SSG）とは？
 
 現代の Web 制作において、WordPress のような動的 CMS に代わって注目されているのが **SSG (Static Site Generator)** です。
 

@@ -1,5 +1,5 @@
 ---
-title: "Markdown と静的サイトゲネレーター（SSG）の相性が抜群な理由"
+title: "Markdown と静的サイトジェネレーター（SSG）の相性が抜群な理由"
 emoji: "📑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["markdown", "ssg", "astro", "webdev"]
