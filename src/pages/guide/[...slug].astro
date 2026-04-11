@@ -28,6 +28,7 @@ const sortedPosts = allCollectionPosts.sort((a, b) => {
 
 const collectionTitle = collection === 'ssg-guide' ? 'SSG Guide' : 'Minecraft Guide';
 const slugPrefix = collection === 'ssg-guide' ? 'ssg' : 'mc';
+const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
 ---
 
 <Layout title={`${post.data.title} | ${collectionTitle}`}>
@@ -56,7 +57,7 @@ const slugPrefix = collection === 'ssg-guide' ? 'ssg' : 'mc';
       </nav>
       
       <div class="sidebar-footer">
-        <a href="/" class="back-home">← 総合目次に戻る</a>
+        <a href={backHomeLink} class="back-home">← 総合目次に戻る</a>
       </div>
     </aside>
 

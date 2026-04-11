@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const mcPosts = await getCollection('minecraft-java-function');
+const sortedPosts = mcPosts.sort((a, b) => {
+  if (a.data.chapter !== b.data.chapter) return (a.data.chapter ?? 0) - (b.data.chapter ?? 0);
+  return (a.data.order ?? 99) - (b.data.order ?? 99);
+});
+
+// マイクラガイド用のチャプター分け
+const chapters = Array.from(new Set(sortedPosts.map(p => p.data.chapter))).sort((a, b) => (a ?? 0) - (b ?? 0));
+---
+
+<Layout title="Minecraft Java Edition: Function 活用ガイド">
+  <div class="hero-section">
+    <div class="club-badge">Presented by Micra LOVE Club</div>
+    <h1 class="hero-title">⛏️ Minecraft Tech Guide</h1>
+    <p class="hero-subtitle">Java版マインクラフトをより深く楽しむための技術解説。サーバー運営から、Function を使った地上絵作成までを網羅します。</p>
+  </div>
+    
+  <div class="toc-container">
+    {chapters.map(chapterNum => (
+      <section class="chapter-section">
+        <div class="chapter-header">
+          <h2 class="chapter-label">Chapter {chapterNum}</h2>
+        </div>
+
+        <div class="posts-grid">
+          {sortedPosts.filter(p => p.data.chapter === chapterNum).map(post => (
+            <div class="glass-card post-card">
+              <a href={`/guide/mc/${post.id}`} class="post-link">
+                <div class="post-meta">
+                  <span class="type-badge">Section {post.data.order}</span>
+                  <span class="status-badge published">Live</span>
+                </div>
+                <h3 class="post-title">{post.data.title}</h3>
+                <p class="post-summary">{post.data.summary}</p>
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <div class="footer-cta">
+    <p>もっと仲間と遊びたい？</p>
+    <a href="https://micraloveclub.fujiken.dev" class="club-link">マイクラLOVE部 公式サイトへ →</a>
+  </div>
+</Layout>
+
+<style>
+  /* マイクラ用の特別なテーマ（緑系アクセント） */
+  :root {
+    --primary-mc: #10b981;
+  }
+
+  .hero-section { text-align: center; margin-bottom: 6rem; }
+  
+  .club-badge {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary-mc);
+    border: 1px solid var(--primary-mc);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+
+  .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; }
+
+  .chapter-section { margin-bottom: 4rem; }
+  .chapter-header { margin-bottom: 2rem; border-left: 4px solid var(--primary-mc); padding-left: 1rem; }
+  .chapter-label { font-size: 1.5rem; color: #fff; }
+
+  .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .post-card { padding: 1.5rem; border: 1px solid rgba(16, 185, 129, 0.1); }
+  .post-card:hover { border-color: var(--primary-mc); }
+  
+  .post-link { text-decoration: none; color: inherit; }
+  .post-meta { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+  .type-badge { font-size: 0.7rem; color: var(--primary-mc); font-family: var(--font-mono); }
+  .status-badge { font-size: 0.6rem; background: var(--primary-mc); color: #fff; padding: 0.1rem 0.4rem; border-radius: 4px; }
+  
+  .post-title { font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; }
+  .post-summary { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+  .footer-cta {
+    text-align: center;
+    margin-top: 6rem;
+    padding: 4rem;
+    background: rgba(16, 185, 129, 0.05);
+    border-radius: 20px;
+  }
+
+  .footer-cta p { color: var(--text-muted); margin-bottom: 1rem; }
+  .club-link {
+    color: var(--primary-mc);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+</style>
