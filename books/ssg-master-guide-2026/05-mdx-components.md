@@ -1,5 +1,5 @@
 ---
-title: "MDX 活用術：Markdown にコンポーネントを組み込んで表現を広げる"
+title: "第5章：MDX 活用術：コンポーネントの導入"
 free: true
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Astro：コンポーネント指向で爆速サイトを作る最先端 SSG"
+title: "第4章：Astro：最先端フレームワークの基本"
 free: true
 ---
 

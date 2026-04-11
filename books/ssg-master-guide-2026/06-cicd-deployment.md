@@ -1,5 +1,5 @@
 ---
-title: "Bitbucket Pipelines で Cloudflare Pages へ自動デプロイする"
+title: "第6章：CI/CD：自動デプロイ環境の構築"
 free: true
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Markdown と静的サイトジェネレーター（SSG）の相性が抜群な理由"
+title: "第3章：Markdown と SSG の相性"
 free: true
 ---
 
