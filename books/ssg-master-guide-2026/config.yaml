@@ -1,7 +1,7 @@
-title: "静的サイトジェネレーター（SSG）完全マスターガイド：2026年版"
-summary: "Astro, Next.js, Hugo などの各種 SSG の特徴から、Cloudflare Pages を使ったプロフェッショナルなデプロイ環境の構築までを一気通貫で解説します。"
-topics: ["ssg", "astro", "nextjs", "cloudflare", "webdev"]
-published: true # 一旦 true にして、チャプターが認識されるか確認します
+title: "はじめての静的サイトジェネレーター：初学者向け入門書（2026年版）"
+summary: "「SSGって何？」という初学者のために、Astro や Next.js の基礎から、自分だけのサイトを公開するまでの手順を優しく解説します。"
+topics: ["ssg", "astro", "nextjs", "cloudflare", "beginner"]
+published: true
 price: 0
 chapters:
   - 01-introduction
