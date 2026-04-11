@@ -1,0 +1,48 @@
+---
+interface Props {
+  type?: 'info' | 'alert';
+}
+
+const { type = 'info' } = Astro.props;
+const icon = type === 'alert' ? '⚠️' : '💡';
+---
+
+<div class={`zenn-message ${type}`}>
+  <span class="message-icon">{icon}</span>
+  <div class="message-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .zenn-message {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .info {
+    background-color: #eef6ff;
+    border: 1px solid #cfe4ff;
+    color: #1a56ad;
+  }
+
+  .alert {
+    background-color: #fff5f5;
+    border: 1px solid #ffe3e3;
+    color: #c92a2a;
+  }
+
+  .message-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .message-content :global(p) {
+    margin: 0;
+  }
+</style>

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Comments from '../../components/Comments.astro';
+import ZennMessage from '../../components/ZennMessage.astro';
 
 export async function getStaticPaths() {
   const allGuidePosts = await getCollection('ssg-guide');
@@ -66,7 +67,7 @@ const { Content } = await render(post);
       </header>
 
       <div class="post-content prose prose-slate lg:prose-xl max-w-none">
-        <Content />
+        <Content components={{ ZennMessage }} />
       </div>
 
       <Comments />
