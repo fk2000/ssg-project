@@ -1,0 +1,6 @@
+title: "静的サイトジェネレーター（SSG）完全マスターガイド：2026年版"
+summary: "Astro, Next.js, Hugo などの各種 SSG の特徴から、Cloudflare Pages を使ったプロフェッショナルなデプロイ環境の構築までを一気通貫で解説します。"
+topics: ["ssg", "astro", "nextjs", "cloudflare", "webdev"]
+published: false # 執筆中のため最初は不透明（false）にしておく
+price: 0 # 無料で公開する場合
+# 本の表紙などを Zenn 側で作成する際に使用されます
