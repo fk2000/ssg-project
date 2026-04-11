@@ -1,14 +1,14 @@
 title: "はじめての静的サイトジェネレーター：初学者向け入門書（2026年版）"
-summary: "「SSGって何？」という初学者のために、Astro や Next.js の基礎から、自分だけのサイトを公開するまでの手順を優しく解説します。"
-topics: ["ssg", "astro", "nextjs", "cloudflare", "beginner"]
+summary: "「SSGって何？」という初学者のために、Astro を中心としたモダンなサイト開発の基礎から、自分だけのサイトを公開するまでの手順を優しく解説します。"
+topics: ["ssg", "astro", "mdx", "cloudflare", "beginner"]
 published: true
 price: 0
 chapters:
   - 01-introduction
-  - 02-markdown-basics
-  - 03-astro-deep-dive
-  - 04-nextjs-overview
-  - 05-hugo-performance
+  - 02-web-basics
+  - 03-markdown-basics
+  - 04-astro-deep-dive
+  - 05-mdx-components
   - 06-cicd-deployment
   - 07-seo-performance
   - 08-hosting-domain
