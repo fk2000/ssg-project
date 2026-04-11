@@ -290,11 +290,22 @@ const { Content } = await render(post);
   @media (max-width: 900px) {
     .book-shell {
       grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
     }
+
+    .post-article {
+      order: 1; /* 記事を先に表示 */
+      padding: 2rem 1.5rem;
+    }
+
     .sidebar {
+      order: 2; /* 目次を後に表示 */
       position: static;
       height: auto;
-      margin-bottom: 3rem;
+      margin-top: 4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
     }
   }
 </style>
