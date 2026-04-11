@@ -12,7 +12,7 @@ const sortedPosts = mcPosts.sort((a, b) => {
 const chapters = Array.from(new Set(sortedPosts.map(p => p.data.chapter))).sort((a, b) => (a ?? 0) - (b ?? 0));
 ---
 
-<Layout title="Minecraft Java Edition: Function 活用ガイド">
+<Layout title="Minecraft Java Edition: Function 活用ガイド" isMinecraft={true}>
   <div class="hero-section">
     <div class="club-badge">Presented by Micra LOVE Club</div>
     <h1 class="hero-title">⛏️ Minecraft Tech Guide</h1>

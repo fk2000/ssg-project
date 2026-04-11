@@ -31,7 +31,7 @@ const slugPrefix = collection === 'ssg-guide' ? 'ssg' : 'mc';
 const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
 ---
 
-<Layout title={`${post.data.title} | ${collectionTitle}`}>
+<Layout title={`${post.data.title} | ${collectionTitle}`} isMinecraft={collection === 'minecraft-java-function'}>
   <div class="book-shell">
     <aside class="sidebar">
       <div class="sidebar-header">

@@ -1,9 +1,15 @@
 ---
 interface Props {
 	title: string;
+	isMinecraft?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, isMinecraft = false } = Astro.props;
+
+const siteName = isMinecraft ? "⛏️ Minecraft Tech Guide" : "✨ SSG Guide";
+const homePath = isMinecraft ? "/minecraft/" : "/";
+const accentColor = isMinecraft ? "#10b981" : "#6366f1";
+const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Project";
 ---
 
 <!doctype html>
@@ -35,17 +41,18 @@ const { title } = Astro.props;
 		})(window,document,'script','dataLayer','GTM-K64LSVTN');</script>
 		<!-- End Google Tag Manager -->
 	</head>
-	<body>
+	<body class={isMinecraft ? 'theme-minecraft' : ''}>
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K64LSVTN"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		<header class="main-header reveal">
 			<div class="header-content">
-				<a href="/" class="logo">✨ SSG Guide</a>
+				<a href={homePath} class="logo">{siteName}</a>
 				<nav class="main-nav">
-					<a href="/">Home</a>
-					<a href="/guide/01-intro">Intro</a>
+					<a href={homePath}>Home</a>
+					{!isMinecraft && <a href="/guide/ssg/01-introduction">Intro</a>}
+					{isMinecraft && <a href="https://micraloveclub.fujiken.dev">Club</a>}
 				</nav>
 			</div>
 		</header>
@@ -54,7 +61,7 @@ const { title } = Astro.props;
 		</main>
 		<footer class="main-footer reveal">
 			<div class="footer-content">
-				<p>© 2026 SSG Guide Project</p>
+				<p>© 2026 {footerText}</p>
 				<nav class="footer-links">
 					<a href="https://fujiken.dev" target="_blank" rel="noopener noreferrer">fujiken.dev</a>
 				</nav>
@@ -63,8 +70,13 @@ const { title } = Astro.props;
 	</body>
 </html>
 
-<style is:global>
+<style is:global define:vars={{ primaryColor: accentColor }}>
 	@import "../styles/global.css";
+
+	/* ページ全体のプライマリカラーを上書き */
+	:root {
+		--primary: var(--primaryColor);
+	}
 
 	.main-header {
 		position: sticky;
@@ -72,7 +84,7 @@ const { title } = Astro.props;
 		z-index: 100;
 		background: rgba(15, 23, 42, 0.8);
 		backdrop-filter: blur(12px);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		border-bottom: 2px solid var(--primaryColor);
 		padding: 1rem 0;
 	}
 
@@ -91,12 +103,29 @@ const { title } = Astro.props;
 		font-size: 1.5rem;
 		color: #fff;
 		letter-spacing: -0.02em;
+		text-decoration: none;
+	}
+
+	.main-nav {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.main-nav a {
+		color: var(--text-muted);
+		text-decoration: none;
+		font-weight: 600;
+		transition: color 0.2s;
+	}
+
+	.main-nav a:hover {
+		color: var(--primaryColor);
 	}
 
 	.page-container {
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 2rem;
+		padding: 4rem 2rem;
 		animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 	}
 
@@ -124,6 +153,7 @@ const { title } = Astro.props;
 
 	.footer-links a {
 		font-weight: 600;
-		color: var(--primary);
+		color: var(--primaryColor);
+		text-decoration: none;
 	}
 </style>
