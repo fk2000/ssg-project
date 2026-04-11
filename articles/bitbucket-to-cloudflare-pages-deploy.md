@@ -12,10 +12,10 @@ published: true
 
 ```mermaid
 graph TD
-    Local[ローカル環境 (VS Code)] -- "git push" --> BB[Bitbucket (メイン)]
-    BB -- "Pipelines (Build)" --> CF[Cloudflare Pages (本番サイト)]
-    BB -- "Mirroring (SSH)" --> GH[GitHub (ミラー)]
-    GH -- "GitHub Integration" --> Zenn[Zenn (技術記事/本)]
+    Local["ローカル環境 (VS Code)"] -- "git push" --> BB["Bitbucket (メイン)"]
+    BB -- "Pipelines (Build)" --> CF["Cloudflare Pages (本番サイト)"]
+    BB -- "Mirroring (SSH)" --> GH["GitHub (ミラー)"]
+    GH -- "GitHub Integration" --> Zenn["Zenn (技術記事/本)"]
 ```
 
 ## 実装のステップ
