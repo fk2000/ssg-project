@@ -1,0 +1,14 @@
+title: "マインクラフトで学ぶ！プログラミング入門：コマンドとFunctionの魔法"
+summary: "マインクラフトのコマンドやFunction（関数の仕組み）を使って、遊びながらプログラミングの基礎を学ぼう！初心者歓迎のステップアップガイドです。"
+topics: ["minecraft", "programming", "education", "command", "datapack"]
+published: false
+price: 0
+chapters:
+  - 01-intro
+  - 02-editions
+  - 03-command-function
+  - 04-aternos
+  - 05-easy-pixel-art
+  - 06-fill-command
+  - 07-function-pixel-art
+  - 08-micraloveclub
