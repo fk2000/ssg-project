@@ -14,6 +14,19 @@ const ssgGuide = defineCollection({
 	}),
 });
 
+const minecraftJavaFunction = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/minecraft-java-function" }),
+	schema: z.object({
+		title: z.string(),
+		chapter: z.number().optional(),
+		order: z.number().optional(),
+		status: z.enum(['draft', 'review', 'published']).default('draft'),
+		tags: z.array(z.string()).optional(),
+		summary: z.string().optional(),
+	}),
+});
+
 export const collections = {
 	'ssg-guide': ssgGuide,
+	'minecraft-java-function': minecraftJavaFunction,
 };

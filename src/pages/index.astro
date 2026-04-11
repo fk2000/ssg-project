@@ -2,59 +2,57 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// 全ての記事を取得し、chapter と order に基づいて並び替えます
-const allGuidePosts = await getCollection('ssg-guide');
-const sortedPosts = allGuidePosts.sort((a, b) => {
-  if (a.data.chapter !== b.data.chapter) return (a.data.chapter ?? 0) - (b.data.chapter ?? 0);
-  return (a.data.order ?? 99) - (b.data.order ?? 99);
-});
+// 全ての記事を取得
+const ssgPosts = await getCollection('ssg-guide');
+const minecraftPosts = await getCollection('minecraft-java-function');
 
-// チャプターごとに記事をグループ化
-const chapters = [
-  { id: 1, title: 'Chapter 1: 基礎知識と導入', description: 'SSGの基本概念と、本サイトを構築している Astro の魅力について学びます。' },
-  { id: 2, title: 'Chapter 2: 主要 SSG カタログ', description: '目的や言語に合わせて、最適な静的サイトジェネレーターを選択するための徹底比較。' },
-  { id: 3, title: 'Chapter 3: 実践・高度な運用術', description: 'デプロイ自動化、独自ドメイン、SEO、計測環境など、プロフェッショナルな運用手法。' }
+const collections = [
+  {
+    id: 'ssg',
+    title: '🚀 SSGガイド プロジェクト',
+    description: '静的サイトジェネレーターの世界を学ぶためのドキュメント。',
+    posts: ssgPosts.sort((a, b) => (a.data.chapter ?? 0) - (b.data.chapter ?? 0) || (a.data.order ?? 99) - (b.data.order ?? 99)),
+    path: 'ssg'
+  },
+  {
+    id: 'minecraft',
+    title: '⛏️ Minecraft Java Edition ガイド',
+    description: 'Function機能を活用した地上絵作成と、サーバーホスティングの解説。',
+    posts: minecraftPosts.sort((a, b) => (a.data.chapter ?? 0) - (b.data.chapter ?? 0) || (a.data.order ?? 99) - (b.data.order ?? 99)),
+    path: 'mc'
+  }
 ];
 ---
 
-<Layout title="SSGガイド - 目次">
+<Layout title="技術ドキュメント Hub">
   <div class="hero-section">
-    <h1 class="hero-title">📚 SSGガイド プロジェクト</h1>
-    <p class="hero-subtitle">静的サイトジェネレーターの世界を学ぶための、体系的でモダンなドキュメント。最新の技術トレンドと実践法を解説します。</p>
+    <h1 class="hero-title">Developer Hub</h1>
+    <p class="hero-subtitle">専門的な技術ナレッジを体系的に整理した、fk2000 のナレッジベースです。</p>
   </div>
     
-  <div class="toc-container">
-    {chapters.map(chapter => (
-      <section class="chapter-section">
-        <div class="chapter-header">
-          <h2 class="chapter-label">{chapter.title}</h2>
-          <p class="chapter-description">{chapter.description}</p>
+  <div class="collections-container">
+    {collections.map(coll => (
+      <section class="collection-section">
+        <div class="collection-header">
+          <h2 class="collection-title">{coll.title}</h2>
+          <p class="collection-description">{coll.description}</p>
         </div>
 
         <div class="posts-grid">
-          {sortedPosts.filter(post => (post.data.chapter ?? 1) === chapter.id).map(post => {
-            const isPublished = post.data.status === 'published';
-            return (
-              <div class="glass-card post-card">
-                <a href={`/guide/${post.id}`} class="post-link">
-                  <div class="post-meta">
-                    <span class="type-badge">節 {post.data.order ?? '?'}</span>
-                    <span class={`status-badge ${post.data.status}`}>
-                      {isPublished ? 'Live' : 'Draft'}
-                    </span>
-                  </div>
-                  <h3 class="post-title">{post.data.title}</h3>
-                  <p class="post-summary">{post.data.summary || "概要は準備中です。"}</p>
-                  
-                  {post.data.tags && (
-                    <div class="tags-container">
-                      {post.data.tags.map(tag => <span class="tag">#{tag}</span>)}
-                    </div>
-                  )}
-                </a>
-              </div>
-            );
-          })}
+          {coll.posts.map(post => (
+            <div class="glass-card post-card">
+              <a href={`/guide/${coll.path}/${post.id}`} class="post-link">
+                <div class="post-meta">
+                  <span class="chapter-label">Ch.{post.data.chapter}</span>
+                  <span class={`status-badge ${post.data.status}`}>
+                    {post.data.status === 'published' ? 'Live' : 'Draft'}
+                  </span>
+                </div>
+                <h3 class="post-title">{post.data.title}</h3>
+                <p class="post-summary">{post.data.summary || "概要は準備中です。"}</p>
+              </a>
+            </div>
+          ))}
         </div>
       </section>
     ))}
@@ -68,123 +66,97 @@ const chapters = [
   }
 
   .hero-title {
-    font-size: 4rem;
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
     background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1.5rem;
-    font-weight: 800;
   }
 
   .hero-subtitle {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
-    max-width: 700px;
-    margin: 0 auto;
-    line-height: 1.6;
   }
 
-  .chapter-section {
-    margin-bottom: 6rem;
+  .collection-section {
+    margin-bottom: 8rem;
   }
 
-  .chapter-header {
-    margin-bottom: 3rem;
-    padding-left: 1.5rem;
-    border-left: 4px solid var(--primary);
+  .collection-header {
+    margin-bottom: 4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
   }
 
-  .chapter-label {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+  .collection-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
     color: #fff;
   }
 
-  .chapter-description {
-    color: var(--text-muted);
+  .collection-description {
     font-size: 1.1rem;
+    color: var(--text-muted);
   }
 
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
   }
 
   .post-card {
     padding: 2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-5px);
   }
 
   .post-link {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    text-decoration: none;
     color: inherit;
   }
 
   .post-meta {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 1.5rem;
   }
 
-  .type-badge {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
+  .chapter-label {
+    font-family: var(--font-mono);
     color: var(--primary);
-    background: rgba(99, 102, 241, 0.1);
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    font-weight: bold;
   }
 
   .status-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 0.15rem 0.5rem;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 4px;
     text-transform: uppercase;
   }
 
-  .status-badge.published { background: #059669; color: #ecfdf5; }
-  .status-badge.draft { background: #475569; color: #f1f5f9; }
+  .status-badge.published { background: rgba(5, 150, 105, 0.2); color: #10b981; }
+  .status-badge.draft { background: rgba(71, 85, 105, 0.2); color: #94a3b8; }
 
   .post-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
     margin-bottom: 1rem;
-    line-height: 1.3;
     color: #fff;
+    line-height: 1.4;
   }
 
   .post-summary {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    margin-bottom: 2rem;
-    flex-grow: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: auto;
-  }
-
-  .tag {
-    font-size: 0.75rem;
-    color: var(--primary);
-    opacity: 0.7;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
   }
 </style>

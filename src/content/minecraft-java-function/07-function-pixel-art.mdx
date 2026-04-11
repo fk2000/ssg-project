@@ -1,0 +1,29 @@
+---
+title: "第7章：Function（ファンクション）で描く究極の地上絵"
+chapter: 7
+order: 1
+status: "published"
+summary: "数千・数万枚のブロックを一撃で設置する、mcfunction ファイルの活用術を解説します。"
+---
+
+# プログラムで絵を描く
+
+ついに本番です。画像解析ツール（Python スクリプトや専用ツール）を使い、画像の 1 ピクセルずつを `/setblock` コマンドに変換したファイルを作成します。
+
+## mcfunction の中身
+ファイルの中には、以下のようなコマンドが数千行並びます。
+```mcfunction
+setblock ~0 ~ ~0 oak_planks
+setblock ~1 ~ ~0 stone
+setblock ~2 ~ ~0 white_wool
+...
+```
+
+## 実行方法
+1.  作成した `.mcfunction` ファイルを、セーブデータの `datapacks/設定名/data/設定名/functions/` 内に入れます。
+2.  ゲーム内で `/reload` を実行。
+3.  `/function 設定名:ファイル名` で実行！
+
+:::message
+一瞬のうちに数万個のブロックが設置され、地面に巨大なキャラクターや写真が現れる光景は圧巻です。これこそが Java 版マイクラの真骨頂です。
+:::
