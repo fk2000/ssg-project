@@ -1,0 +1,21 @@
+{
+  "Astro Content Frontmatter": {
+    "prefix": "frontmatter",
+    "body": [
+      "---",
+      "title: \"${1:タイトル}\"",
+      "chapter: ${2:1}",
+      "order: ${3:1}",
+      "status: \"${4|published,draft|}\"",
+      "summary: \"${5:概要をここに記入}\"",
+      "tags: [${6:\"Astro\", \"Web\"}]",
+      "pubDate: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "---",
+      "",
+      "# ${1:タイトル}",
+      "",
+      "$0"
+    ],
+    "description": "Astro Content Collections 用のフロントマターテンプレート"
+  }
+}
