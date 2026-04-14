@@ -71,7 +71,7 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
         {post.data.summary && <p class="post-description">{post.data.summary}</p>}
       </header>
 
-      <div class="post-content prose prose-slate lg:prose-xl max-w-none">
+      <div class={`post-content prose lg:prose-xl max-w-none ${collection === 'ssg-guide' ? 'prose-invert' : 'prose-slate'}`}>
         <Content components={{ ZennMessage }} />
       </div>
 
@@ -179,20 +179,35 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
     font-weight: 600;
   }
 
-  /* 記事エリア */
-  .post-header {
+  /* 記事エリア: グラスモーフィズム・スタイル */
+  .post-article {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    padding: 3rem 4rem;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    max-width: 900px;
     margin-bottom: 4rem;
+    animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .post-meta {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
     margin-bottom: 1rem;
     font-family: var(--font-mono);
     font-size: 0.9rem;
+    color: var(--text-muted);
   }
 
   .chapter-tag {
@@ -202,26 +217,118 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
 
   .tag {
     color: var(--text-muted);
-    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.1rem 0.6rem;
+    border-radius: 4px;
   }
 
   .post-title {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.2;
     color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
 
   .post-description {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--text-muted);
     line-height: 1.6;
+    border-left: 4px solid var(--primary);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .post-content {
     color: #e2e8f0;
-    margin-bottom: 6rem;
+    line-height: 1.8;
+  }
+
+  /* ダーク背景でのタイポグラフィ改善 */
+  :global(.prose h1) {
+    color: #fff !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-top: 4rem !important;
+    margin-bottom: 2rem !important;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  :global(.prose h2) {
+    color: #fff !important;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+    margin-top: 3.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  :global(.prose h3) {
+    color: #f1f5f9 !important;
+    margin-top: 2.5rem !important;
+  }
+  
+  :global(.prose strong) {
+    color: var(--primary);
+    font-weight: 700;
+  }
+  
+  :global(.prose blockquote) {
+    background: rgba(99, 102, 241, 0.05) !important;
+    border-left-color: var(--primary) !important;
+    color: #cbd5e1 !important;
+    font-style: italic !important;
+    padding: 1.5rem 2rem !important;
+    border-radius: 0 12px 12px 0;
+  }
+  
+  :global(.prose code:not(pre code)) {
+    background: rgba(225, 29, 72, 0.1) !important;
+    color: #fb7185 !important;
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 6px;
+    font-size: 0.9em;
+    border: 1px solid rgba(225, 29, 72, 0.2);
+  }
+
+  :global(.prose table) {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  :global(.prose th) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  :global(.prose td) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.75rem 1rem !important;
+  }
+
+  :global(.prose a) {
+    color: var(--primary) !important;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  :global(.prose a:hover) {
+    border-bottom-color: var(--primary);
+    filter: brightness(1.2);
+  }
+
+  /* コメントセクションの見出しを確実に表示 */
+  .post-article :global(.section-title) {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
 
   @media (max-width: 900px) {
@@ -233,14 +340,19 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
 
     .post-article {
       order: 1;
-      padding: 0;
+      padding: 2rem 1.5rem;
+      border-radius: 0;
+      box-shadow: none;
+      max-width: 100%;
+      background: transparent;
+      backdrop-filter: none;
     }
 
     .sidebar {
       order: 2;
       position: static;
       height: auto;
-      margin-top: 6rem;
+      margin-top: 4rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 3rem;
     }
