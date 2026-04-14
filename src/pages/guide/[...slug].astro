@@ -16,12 +16,15 @@ export async function getStaticPaths() {
   return allPosts;
 }
 
-const { post, collection } = Astro.props;
+const { post, collection } = Astro.props as { 
+  post: any; 
+  collection: 'ssg-guide' | 'minecraft-java-function' 
+};
 const { Content, headings } = await render(post);
 
 // サイドバー用のデータを、同じコレクション内から取得
 const allCollectionPosts = await getCollection(collection);
-const sortedPosts = allCollectionPosts.sort((a, b) => {
+const sortedPosts = allCollectionPosts.sort((a: any, b: any) => {
   if (a.data.chapter !== b.data.chapter) return (a.data.chapter ?? 0) - (b.data.chapter ?? 0);
   return (a.data.order ?? 99) - (b.data.order ?? 99);
 });
@@ -39,11 +42,11 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
         <h2 class="sidebar-title">目次</h2>
       </div>
       <nav class="toc-nav">
-        {Array.from(new Set(sortedPosts.map(p => p.data.chapter))).sort((a, b) => (a ?? 0) - (b ?? 0)).map(chapterNum => (
+        {Array.from(new Set(sortedPosts.map((p: any) => p.data.chapter))).sort((a: any, b: any) => (a ?? 0) - (b ?? 0)).map((chapterNum: any) => (
           <div class="chapter-group">
             <h3 class="chapter-label">Chapter {chapterNum}</h3>
             <ul>
-              {sortedPosts.filter(p => p.data.chapter === chapterNum).map(p => (
+              {sortedPosts.filter((p: any) => p.data.chapter === chapterNum).map((p: any) => (
                 <li>
                   <a href={`/guide/${slugPrefix}/${p.id}`} class={p.id === post.id ? 'active' : ''}>
                     <span class="order-num">{p.data.order}</span>
@@ -65,7 +68,7 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
       <header class="post-header">
         <div class="post-meta">
           <span class="chapter-tag">Chapter {post.data.chapter} - Section {post.data.order}</span>
-          {post.data.tags && post.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+          {post.data.tags && post.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}
         </div>
         <h1 class="post-title">{post.data.title}</h1>
         {post.data.summary && <p class="post-description">{post.data.summary}</p>}
