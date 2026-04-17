@@ -21,7 +21,7 @@ build_job:
 deploy_job:
   stage: deploy
   script:
-    - npx wrangler pages deploy dist/client --project-name vigorous-venus --commit-dirty=true
+    - npx wrangler pages deploy dist/client --project-name vigorous-venus --commit-dirty=true --branch main
   only:
     - main
   environment:
