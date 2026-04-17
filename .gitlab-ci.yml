@@ -1,0 +1,29 @@
+image: node:22
+
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+build_job:
+  stage: build
+  script:
+    - npm install --legacy-peer-deps
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+deploy_job:
+  stage: deploy
+  script:
+    - npx wrangler pages deploy dist/client --project-name vigorous-venus --commit-dirty=true
+  only:
+    - main
+  environment:
+    name: production
+    url: https://vigorous-venus.pages.dev
