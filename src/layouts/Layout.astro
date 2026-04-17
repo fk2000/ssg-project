@@ -113,6 +113,17 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 							container.style.width = '100%';
 							container.style.overflowX = 'auto';
 							container.innerHTML = svg;
+							container.style.cursor = 'zoom-in';
+							
+							container.addEventListener('click', () => {
+								const modal = document.getElementById('mermaid-modal');
+								const modalContent = document.getElementById('mermaid-modal-content');
+								if (modal && modalContent) {
+									modalContent.innerHTML = svg;
+									modal.classList.add('active');
+									document.body.style.overflow = 'hidden';
+								}
+							});
 							
 							if (parent && parent.parentNode) {
 								parent.parentNode.replaceChild(container, parent);
@@ -138,6 +149,27 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 				}
 			})();
 		</script>
+		<div id="mermaid-modal" class="mermaid-modal">
+			<div id="mermaid-modal-content" class="mermaid-modal-content"></div>
+			<button class="modal-close">&times;</button>
+		</div>
+
+		<script is:inline>
+			// モダルを閉じる処理
+			document.addEventListener('DOMContentLoaded', () => {
+				const modal = document.getElementById('mermaid-modal');
+				if (modal) {
+					const closeModal = () => {
+						modal.classList.remove('active');
+						document.body.style.overflow = '';
+					};
+					modal.addEventListener('click', closeModal);
+					document.addEventListener('keydown', (e) => {
+						if (e.key === 'Escape') closeModal();
+					});
+				}
+			});
+		</script>
 	</body>
 </html>
 
@@ -160,6 +192,77 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 	.theme-minecraft .mermaid {
 		background: rgba(255, 255, 255, 0.6);
 		border: 2px solid #388e3c;
+		box-shadow: 4px 4px 0 #388e3c;
+	}
+
+	/* --- Mermaid Modal --- */
+	.mermaid-modal {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(10px);
+		z-index: 9999;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		cursor: zoom-out;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.mermaid-modal.active {
+		display: flex;
+		opacity: 1;
+	}
+
+	.mermaid-modal-content {
+		max-width: 95%;
+		max-height: 90vh;
+		background: #fff;
+		padding: 3rem;
+		border-radius: 20px;
+		overflow: auto;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+		transform: scale(0.95);
+		transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.mermaid-modal.active .mermaid-modal-content {
+		transform: scale(1);
+	}
+
+	.theme-ssg .mermaid-modal-content {
+		background: #1e293b;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.modal-close {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+		background: none;
+		border: none;
+		color: #fff;
+		font-size: 3rem;
+		cursor: pointer;
+		line-height: 1;
+		opacity: 0.7;
+		transition: opacity 0.2s;
+	}
+
+	.modal-close:hover {
+		opacity: 1;
+	}
+
+	.mermaid-container svg {
+		height: auto !important;
+		max-width: 100% !important;
+	}
+
+	.mermaid-modal-content svg {
+		width: 100% !important;
+		height: auto !important;
 	}
 	.main-header {
 		position: sticky;
