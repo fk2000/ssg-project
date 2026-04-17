@@ -20,6 +20,18 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<script is:inline>
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+			document.documentElement.setAttribute('data-theme', theme);
+		</script>
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +54,10 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 					<a href={homePath}>Home</a>
 					{!isMinecraft && <a href="/guide/ssg/01-introduction">Intro</a>}
 					{isMinecraft && <a href="https://micraloveclub.fujiken.dev" target="_blank">Club</a>}
+					<button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+						<span class="sun-icon">☀️</span>
+						<span class="moon-icon">🌙</span>
+					</button>
 				</nav>
 			</div>
 		</header>
@@ -68,7 +84,7 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 						return;
 					}
 					
-					const isDark = document.body.classList.contains('theme-ssg');
+					const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 					mermaid.initialize({
 						startOnLoad: false,
 						theme: isDark ? 'dark' : 'default',
@@ -150,6 +166,16 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 					initMermaid();
 				}
 			})();
+
+			// Theme Toggle Logic
+			document.addEventListener('DOMContentLoaded', () => {
+				document.getElementById('theme-toggle')?.addEventListener('click', () => {
+					const currentTheme = document.documentElement.getAttribute('data-theme');
+					const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+					document.documentElement.setAttribute('data-theme', newTheme);
+					localStorage.setItem('theme', newTheme);
+				});
+			});
 		</script>
 		<div id="mermaid-modal" class="mermaid-modal">
 			<div id="mermaid-modal-content" class="mermaid-modal-content"></div>
@@ -180,6 +206,19 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 
 	:root {
 		--primary: var(--primaryColor);
+		--bg: #ffffff;
+		--text: #1e293b;
+		--text-muted: #64748b;
+		--header-bg: rgba(255, 255, 255, 0.8);
+		--border: rgba(0, 0, 0, 0.1);
+	}
+
+	[data-theme='dark'] {
+		--bg: #0f172a;
+		--text: #f8fafc;
+		--text-muted: #94a3b8;
+		--header-bg: rgba(15, 23, 42, 0.8);
+		--border: rgba(255, 255, 255, 0.1);
 	}
 
 	/* --- Common Styles --- */
@@ -326,24 +365,51 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 
 	.footer-links a { font-weight: 600; text-decoration: none; }
 
-	/* --- SSG Theme (Dark) --- */
+	/* --- SSG Theme (Dynamic) --- */
 	.theme-ssg {
-		background: #0f172a;
-		color: #f8fafc;
+		background: var(--bg);
+		color: var(--text);
+		transition: background 0.3s, color 0.3s;
 	}
 	.theme-ssg .main-header {
-		background: rgba(15, 23, 42, 0.8);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		background: var(--header-bg);
+		border-bottom: 1px solid var(--border);
 	}
-	.theme-ssg .logo { color: #fff; }
+	.theme-ssg .logo { color: var(--text); }
 	.theme-ssg .main-nav a { color: var(--text-muted); }
 	.theme-ssg .main-nav a:hover { color: var(--primary); }
 	.theme-ssg .main-footer {
-		background: rgba(15, 23, 42, 0.4);
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		background: var(--bg);
+		opacity: 0.8;
+		border-top: 1px solid var(--border);
 		color: var(--text-muted);
 	}
 	.theme-ssg .footer-links a { color: var(--primary); }
+
+	/* Theme Toggle Button */
+	.theme-toggle {
+		background: none;
+		border: 1px solid var(--border);
+		cursor: pointer;
+		padding: 0.4rem;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s;
+		color: var(--text);
+		margin-left: 0.5rem;
+	}
+
+	.theme-toggle:hover {
+		background: rgba(125, 125, 125, 0.1);
+		transform: scale(1.1);
+	}
+
+	[data-theme='dark'] .sun-icon { display: block; }
+	[data-theme='dark'] .moon-icon { display: none; }
+	[data-theme='light'] .sun-icon { display: none; }
+	[data-theme='light'] .moon-icon { display: block; }
 
 	/* --- Minecraft Theme (Bright/Kids) --- */
 	.theme-minecraft {
