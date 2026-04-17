@@ -17,7 +17,7 @@ AI時代において、コンテンツの更新頻度と表示速度はサイト
 この構成の核となるのは、Hugoによる「超高速な静的ファイル生成」と、apmによる「一貫性のある実行環境とCI/CDの統合」です。
 
 ```mermaid
-graph LR
+graph TD
     Dev[開発者] -->|Markdown| Git(Git Repository)
     Git -->|Push| CI[CI/CD: GitHub Actions]
     
