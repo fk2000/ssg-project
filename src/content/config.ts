@@ -8,6 +8,7 @@ const docSchema = z.object({
   summary: z.string().optional(),
   tags: z.array(z.string()).optional(),
   pubDate: z.coerce.date().optional(),
+  isSubpage: z.boolean().optional(),
 });
 
 const minecraftJavaFunction = defineCollection({

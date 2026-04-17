@@ -47,7 +47,7 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
             <h3 class="chapter-label">Chapter {chapterNum}</h3>
             <ul>
               {sortedPosts.filter((p: any) => p.data.chapter === chapterNum).map((p: any) => (
-                <li>
+                <li class={p.data.isSubpage ? 'subpage-item' : ''}>
                   <a href={`/guide/${slugPrefix}/${p.id}`} class={p.id === post.id ? 'active' : ''}>
                     <span class="order-num">{p.data.order}</span>
                     <span class="link-text">{p.data.title}</span>
@@ -168,6 +168,29 @@ const backHomeLink = collection === 'ssg-guide' ? '/' : '/minecraft/';
   .order-num {
     opacity: 0.5;
     font-family: var(--font-mono);
+    font-size: 0.8rem;
+    min-width: 1.5rem;
+  }
+
+  /* サブページ用のインデント */
+  .subpage-item {
+    margin-left: 1.5rem;
+    position: relative;
+  }
+
+  .subpage-item::before {
+    content: "└";
+    position: absolute;
+    left: -1rem;
+    top: 0.5rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    font-size: 0.8rem;
+  }
+
+  .subpage-item a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
   }
 
   .sidebar-footer {
