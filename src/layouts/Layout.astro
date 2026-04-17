@@ -110,7 +110,9 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 							container.style.padding = '1.5rem';
 							container.style.background = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)';
 							container.style.borderRadius = '12px';
-							container.style.width = '100%';
+							container.style.width = 'fit-content';
+							container.style.maxWidth = '100%';
+							container.style.margin = '2rem auto';
 							container.style.overflowX = 'auto';
 							container.innerHTML = svg;
 							container.style.cursor = 'zoom-in';
@@ -258,7 +260,14 @@ const footerText = isMinecraft ? "Presented by Micra LOVE Club" : "SSG Guide Pro
 
 	.mermaid-container svg {
 		height: auto !important;
-		max-width: 100% !important;
+		max-width: 600px !important;
+		width: 100% !important;
+		transition: transform 0.2s ease;
+	}
+
+	.mermaid-container:hover svg {
+		transform: translateY(-2px);
+		filter: brightness(1.1);
 	}
 
 	.mermaid-modal-content svg {
