@@ -249,11 +249,37 @@ npm run zenn:preview
 
 Bot を動かす場合は、Minecraft サーバーの接続情報や API キーを `.env` などで管理し、`.env` を Git に追加しないでください。公開する前に、意図しない行動をしないか、AI API が失敗した場合に停止するか、Bot を安全に切断できるかを確認します。
 
-## GitHub で記事を公開する
+## 🚀 公開リポジトリ
 
-記事のファイル名は `zenn-minecraft-ai-bot.md` です。12〜50 文字の半角英数字・ハイフン・アンダースコアで構成された slug になっています。Zenn の GitHub 連携でこのリポジトリを連携済みの場合、`published: true` の記事を対象ブランチへ push すると公開対象になります。公開ブランチや連携状態を確認してから push してください。
+コードはすべて GitHub にてオープンソースで公開しています。
 
-この記事のサンプルリポジトリは [fk2000/ssg-project](https://github.com/fk2000/ssg-project) です。実際の Bot 実装を追加する場合は、動作環境、利用する Jev の API、必要な Secret、ライセンスや利用条件を README に明記してください。
+👉 **[GitHub: fk2000/minecraft-ai-bot](https://github.com/fk2000/minecraft-ai-bot)**
+
+---
+
+## 📦 使い方（デプロイ手順）
+
+### 1. リポジトリのクローン
+
+```bash
+git clone https://github.com/fk2000/minecraft-ai-bot.git
+cd minecraft-ai-bot
+npm ci
+cp .env.example .env
+```
+
+### 2. 環境変数の設定
+
+`.env` を編集し、Minecraft サーバーの接続先と Bot アカウント、Jev API キーを設定します。実際の API キーや認証情報は Git にコミットしないでください。Gemini による会話機能を使う場合は `GEMINI_API_KEY` も設定します。
+
+### 3. コンテナのビルドと起動
+
+```bash
+npm run build:container
+npm run start:container
+```
+
+Discord 連携などの任意機能を含む詳しい設定は、[公開リポジトリの README](https://github.com/fk2000/minecraft-ai-bot#readme) を確認してください。Minecraft サーバー運営者の許可を得た環境で利用し、各サービスの利用規約とサーバーのルールに従ってください。
 
 ## まとめ
 
