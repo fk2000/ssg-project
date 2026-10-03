@@ -38,6 +38,20 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## Zenn articles
+
+Zenn articles are stored in `articles/` and can be previewed locally:
+
+```sh
+npm run zenn:preview
+```
+
+Create a new article with:
+
+```sh
+npm run zenn:new
+```
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

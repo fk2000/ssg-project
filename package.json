@@ -9,6 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "zenn:preview": "npx zenn preview",
+    "zenn:new": "npx zenn new:article",
     "astro": "astro",
     "generate-types": "wrangler types"
   },
@@ -27,5 +29,8 @@
   },
   "optionalDependencies": {
     "@tailwindcss/oxide-darwin-arm64": "^4.2.2"
+  },
+  "devDependencies": {
+    "zenn-cli": "^0.5.4"
   }
 }
