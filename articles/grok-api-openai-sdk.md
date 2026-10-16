@@ -3,7 +3,7 @@ title: "OpenAI SDK のコードを Grok API に移したら、変更は2か所�
 emoji: "🔁"
 type: "tech"
 topics: ["grok", "openai", "python", "llm", "api"]
-published: false
+published: true
 ---
 
 ## 結論（先に）
