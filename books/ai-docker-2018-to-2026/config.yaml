@@ -1,0 +1,8 @@
+title: "AI × Docker：2018年の docker-compose×Heroku を2026年にやり直す"
+summary: "2018年に書いた docker-compose で Rails＋MySQL を動かし Heroku に載せる構成を、2026年の Docker・Rails と AI でやり直す本です。AI に Dockerfile や compose.yml を書かせ、人が経験で確かめて直す流れを、実際のコマンドと結果つきで解説します。デプロイ先として Heroku・Render・Cloudflare・Railway を扱う予定です。現在は第1章（無料）と第2章を公開中。第3章以降は順次追加予定です。"
+topics: ["docker", "ai", "rails", "heroku", "infra"]
+published: true
+price: 500
+chapters:
+  - 1-redo-2018
+  - 2-ai-dockerfile
