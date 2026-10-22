@@ -163,6 +163,8 @@ PHPのパッチ対応が落ち着いたら、出荷済みの機器が「どの�
 - Let's Encrypt「DST Root CA X3 Expiration (September 2021)」: https://letsencrypt.org/docs/dst-root-ca-x3-expiration-september-2021/
 - RFC 7030（EST）: https://www.rfc-editor.org/rfc/rfc7030 ／ RFC 8894（SCEP）: https://www.rfc-editor.org/rfc/rfc8894 ／ RFC 8555（ACME）: https://www.rfc-editor.org/rfc/rfc8555
 
-2026年10月24日にZennで本『AI × Docker』を公開予定です（第1章は無料）。
+---
+
+証明書や実行環境を「作った後も更新し続ける」前提で組む話は、コンテナでも同じです。2026年10月24日に、Zennで本『AI × Docker』を公開予定です。2018年の docker-compose 構成を2026年に AI と一緒にやり直し、AI が書いた Dockerfile を人が確かめて直す流れを、コマンドと結果つきでまとめています（第1章は無料）。
 
 noteでも開発・AIまわりの記事を書いています: https://note.com/fk2000
