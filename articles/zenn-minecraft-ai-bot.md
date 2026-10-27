@@ -291,4 +291,4 @@ Jev で指示を組み立て、Gemini で許可済み行動を選び、Mineflaye
 
 ---
 
-この Bot のように AI に手伝わせて作るとき、Docker まわりの設定も AI に書かせることが増えました。2026年10月24日に、Zennで本『AI × Docker』を公開予定です。AI が書いた Dockerfile や compose.yml を人が確かめて直す流れを、実際のコマンドと結果つきでまとめています（第1章は無料）。
+この Bot のように AI に手伝わせて作るとき、Docker まわりの設定も AI に書かせることが増えました。Zennで本[『AI × Docker』](https://zenn.dev/fk2000/books/ai-docker-2018-to-2026)を公開しました。AI が書いた Dockerfile や compose.yml を人が確かめて直す流れを、実際のコマンドと結果つきでまとめています（第1章は無料）。
